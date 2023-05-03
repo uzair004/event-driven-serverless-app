@@ -1,9 +1,9 @@
 #$file(service.yml)
 
-service: 'backend'
+service: 'orders-service'
 # app and org for use with dashboard.serverless.com
-app: 'appName'
-org: 'orgName'
+app: 'markaz-task'
+org: 'markaz'
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -11,12 +11,12 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs16.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
   httpApi:
     cors: true
-  deploymentPrefix: meraid
+  deploymentPrefix: test
   deploymentBucket:
     name: serverless-${self:custom.name}
     blockPublicAccess: true
