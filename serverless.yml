@@ -92,6 +92,30 @@ functions:
         - httpApi:
           method: post
           path: /v1/orders
+      iamRoleStatementsInherit: true
+      iamRoleStatements:
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource: '*'
+
+  processOrder:
+    handler: src/controlelrs/index.processOrderC
+    events:
+      - sqs:
+          arn: arn:aws:sqs:${self:provider.region}:${AWS_ACCOUNT_ID}:CREATED_ORDERS_QUEUE
+          batchSize: 1
+          maximumRetryAttempts: 3
+          visibilityTimeout: 30
+          pollingTimeout: 20
+          enabled: true
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - sqs:ReceiveMessage
+          - sqs:DeleteMessage
+        Resource: '*'
 
 plugins:
   - serverless-dynamodb-local
@@ -110,19 +134,19 @@ plugins:
 
 params:
   default:
-    backendDomain: api-${sls:stage}.dev.${self:custom.domain}
-    frontendDomain: https://${sls:stage}.dev.${self:custom.domain}
-    certificateName: dev.${self:custom.domain}
+    # backendDomain: api-${sls:stage}.dev.${self:custom.domain}
+    # frontendDomain: https://${sls:stage}.dev.${self:custom.domain}
+    # certificateName: dev.${self:custom.domain}
     region: 'us-east-1'
     s3BucketName: ${self:custom.domain}-${sls:stage}-${param:region}-media
-    sourceEmail: no-reply@${param:certificateName}
+    # sourceEmail: no-reply@${param:certificateName}
   dev:
-    backendDomain: api.dev.${self:custom.domain}
-    frontendDomain: https://dev.${self:custom.domain}
-    certificateName: dev.${self:custom.domain}
+    # backendDomain: api.dev.${self:custom.domain}
+    # frontendDomain: https://dev.${self:custom.domain}
+    # certificateName: dev.${self:custom.domain}
     region: 'us-east-1'
     s3BucketName: ${self:custom.domain}-dev-${param:region}-media
-    sourceEmail: no-reply@${param:certificateName}
+    # sourceEmail: no-reply@${param:certificateName}
   # prod:
   #   backendDomain: api.${self:custom.domain}
   #   frontendDomain: https://${self:custom.domain}
