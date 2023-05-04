@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const { makeUserDb } = require('./userDb');
+const { makeOrderDb } = require('./orderDb');
 
 const { isValueTrue } = require('../util/util');
 
@@ -36,6 +37,7 @@ function makeDbConnect() {
 }
 
 const userDb = makeUserDb({ makeDb, makeDbConnect, getTableName });
+const orderDb = makeOrderDb({ makeDb, makeDbConnect, getTableName });
 
 function getTableName() {
   return tableName;
@@ -46,4 +48,5 @@ module.exports = {
   makeDbConnect,
   getTableName,
   userDb,
+  orderDb,
 };
