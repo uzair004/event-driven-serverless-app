@@ -42,7 +42,41 @@ const UserDM = {
 AllDM[UserDM.makeType()] = UserDM;
 Prefix[UserDM.makeType()] = 'U';
 
+const OrderDM = {
+  ...BaseDM,
+
+  userId: 'userId',
+
+  products: [
+    {
+      id: 'product id',
+      name: 'product name',
+      quantity: 'quantity',
+    },
+  ],
+
+  address: {
+    city: 'city name',
+    zip: 'city zip code',
+    state: 'state name',
+  },
+
+  makeType: () => 'ORDER',
+
+  makePK: () => `Orders`,
+  splitPK: () => undefined,
+
+  makeSK: ({ userId, orderId }) => `${userId}#${orderId}`,
+  splitSK: (_SK) => {
+    return {
+      userId: _SK.split('#')[0],
+      orderId: _SK.split('#')[1],
+    };
+  },
+};
+
 module.exports = {
   AllDM,
   UserDM,
+  OrderDM,
 };
