@@ -7,8 +7,9 @@ const {
   missingItem,
 } = require('../util/util');
 
-const { helloWorldUC } = require('../use-cases');
+const { helloWorldUC, createOrderUC } = require('../use-cases');
 const { makeHelloWorldC } = require('./helloWorldC');
+const { makeCreateOrderC } = require('./createOrderC');
 
 const helloWorldC = makeHelloWorldC({
   helloWorldUC,
@@ -18,8 +19,16 @@ const helloWorldC = makeHelloWorldC({
   missingItem,
 });
 
-const requestController = Object.freeze({
-  helloWorldC,
+const createOrderC = makeCreateOrderC({
+  getApiInfo,
+  getRemoteIp,
+  missingItem,
+  createOrderUC,
 });
 
-module.exports = { helloWorldC, requestController };
+const requestController = Object.freeze({
+  helloWorldC,
+  createOrderC,
+});
+
+module.exports = { helloWorldC, createOrderC, requestController };
