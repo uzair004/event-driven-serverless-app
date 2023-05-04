@@ -41,3 +41,19 @@ Resources:
               - '*'
             AllowedHeaders:
               - '*'
+  CREATED_ORDERS_QUEUE:
+    Type: 'AWS::SQS::Queue'
+    properties:
+      QueueName: 'CREATED_ORDERS_QUEUE'
+      DelaySeconds: 0
+      MaximumMessageSize: 252144
+      ReceiveMessageWaitTimeSeconds: 20
+      maxReceiveCount: 5
+  PROCESSED_ORDERS_QUEUE:
+    Type: 'AWS::SQS::Queue'
+    properties:
+      QueueName: 'PROCESSED_ORDERS_QUEUE'
+      DelaySeconds: 0
+      MaximumMessageSize: 252144
+      ReceiveMessageWaitTimeSeconds: 20
+      maxReceiveCount: 5
