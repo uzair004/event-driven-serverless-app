@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+require('dotenv').config();
 
 const createSignedPostURL = ({ key }) => {
   return new Promise(function (resolve, reject) {
@@ -59,9 +60,29 @@ const getS3Object = async ({ key }) => {
     .promise();
 };
 
+// api key etc will be take from .env
+AWS.config.update({ region: process.env.AWS_REGION });
+const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
+
+const pushToQueue = (message) => {
+  return new Promise((resolve, reject) => {
+    sqs.sendMessage(
+      {
+        MessageBody: JSON.stringify(message),
+        QueueUrl: process.env.CREATED_ORDERS_QUEUE,
+      },
+      function (err, data) {
+        if (err) reject(err);
+        else if (data) resolve(data);
+      }
+    );
+  });
+};
+
 module.exports = {
   createSignedPostURL,
   getSignedUrl,
   uploadToS3,
   getS3Object,
+  pushToQueue,
 };
