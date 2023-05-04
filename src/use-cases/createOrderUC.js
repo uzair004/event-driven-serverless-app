@@ -1,6 +1,6 @@
 'use strict';
 
-function makeCreateOrderUC({ /*userDb*/ orderDb, makeOrder }) {
+function makeCreateOrderUC({ /*userDb*/ orderDb, makeOrder, pushToQueue }) {
   return async function createOrderUC(requestInfo) {
     const { userId, products, remoteIp, apiInfo } = requestInfo;
 
@@ -40,7 +40,10 @@ function makeCreateOrderUC({ /*userDb*/ orderDb, makeOrder }) {
       version: apiInfo.version,
     });
 
-    await orderDb.createOrder(order.getItem());
+    await Promise.all([
+      orderDb.createOrder(order.getItem()),
+      pushToQueue({ products, userId, orderId: order.getId() }),
+    ]);
   };
 }
 
