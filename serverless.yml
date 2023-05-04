@@ -45,7 +45,6 @@ provider:
             - arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.dynamodb.MainTable}/index/${self:custom.dynamodb.MainTableGSI1}
           # - arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.dynamodb.MainTable}/index/${self:custom.dynamodb.MainTableGSI2}
 
-
   environment:
     IS_OFFLINE: ${opt:IS_OFFLINE, false}
     REGION: ${self:provider.region}
@@ -61,27 +60,38 @@ package:
     - '!./.vscode/**'
     - '!./**/*.spec.js'
 functions:
-  helloWorld:
-    handler: src/controllers/index.helloWorldC
+  # helloWorld:
+  #   handler: src/controllers/index.helloWorldC
+  #   middleware:
+  #     pre:
+  #       - src/middleware/index.jwtAuth
+  #   events:
+  #     - httpApi:
+  #         method: any
+  #         path: /v1/hello-world
+  #   iamRoleStatementsInherit: true
+  #   iamRoleStatements:
+  #     - Effect: Allow
+  #       Action:
+  #         - s3:GetObject
+  #       Resource: 'arn:aws:s3:::${self:custom.s3.MediaBucket}/*'
+  #       # '*' # TODO: later we should replace it with working ARN instead of a wildcard
+  #     - Effect: Allow # sendEmail permission
+  #       Action:
+  #         - 'ses:SendEmail'
+  #         - 'ses:SendRawEmail'
+  #       Resource: '*'
+
+  createOrder:
+    handler: src/controlelrs/index.createOrderC
     middleware:
       pre:
-        - src/middleware/index.jwtAuth
-    events:
-      - httpApi:
-          method: any
-          path: /v1/hello-world
-    iamRoleStatementsInherit: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - s3:GetObject
-        Resource: 'arn:aws:s3:::${self:custom.s3.MediaBucket}/*'
-        # '*' # TODO: later we should replace it with working ARN instead of a wildcard
-      - Effect: Allow # sendEmail permission
-        Action:
-          - 'ses:SendEmail'
-          - 'ses:SendRawEmail'
-        Resource: '*'
+        # - src/middleware/index.jwtAuth
+        # uncomment once user signup/sigin apis implemented
+      events:
+        - httpApi:
+          method: post
+          path: /v1/orders
 
 plugins:
   - serverless-dynamodb-local
@@ -128,7 +138,6 @@ params:
   #   s3BucketName: ${self:custom.domain}-preview-${param:region}-media
   #   sourceEmail: no-reply@${param:certificateName}
 custom:
-
   # domain: myapp.pk
   # name: ${self:app}-${self:service}-${sls:stage}
 
