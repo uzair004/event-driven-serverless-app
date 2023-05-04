@@ -46,6 +46,7 @@ const OrderDM = {
   ...BaseDM,
 
   userId: 'userId',
+  orderStatus: 'orderStatus',
 
   products: [
     {

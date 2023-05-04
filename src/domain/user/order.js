@@ -14,6 +14,7 @@ function buildMakeOrder({ makeTs, makeId }) {
     updatedAt = makeTs(),
     status = '1',
     statusReason = 'active',
+    orderStatus = 'pending',
   } = {}) {
     validateInputData();
 
@@ -28,6 +29,7 @@ function buildMakeOrder({ makeTs, makeId }) {
       getVersion: () => version,
       getProducts: () => products,
       getAddress: () => address,
+      getOrderStatus: () => orderStatus,
       hasRequiredAtts: function () {
         if (!id || !userId) {
           return false;
@@ -49,6 +51,7 @@ function buildMakeOrder({ makeTs, makeId }) {
           statusReason: this.getStatusReason(),
           products: this.getProducts(),
           address: this.getAddress(),
+          orderStatus: this.getOrderStatus(),
         };
       },
 
