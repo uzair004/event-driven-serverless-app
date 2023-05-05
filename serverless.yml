@@ -104,6 +104,7 @@ functions:
     events:
       - sqs:
           arn: !GetAtt CreatedOrdersQueue.Arn
+    iamRoleStatementsInherit: true
     iamRoleStatements:
       - Effect: Allow
         Action:
