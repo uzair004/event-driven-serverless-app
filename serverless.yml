@@ -126,7 +126,6 @@ plugins:
   - '@serverless/safeguards-plugin'
   - serverless-export-env
   - serverless-middleware
-  # - serverless-domain-manager
   - serverless-iam-roles-per-function
   - serverless-plugin-scripts
   - serverless-deployment-bucket
@@ -136,45 +135,13 @@ plugins:
 
 params:
   default:
-    # backendDomain: api-${sls:stage}.dev.${self:custom.domain}
-    # frontendDomain: https://${sls:stage}.dev.${self:custom.domain}
-    # certificateName: dev.${self:custom.domain}
     region: 'us-east-1'
-    # s3BucketName: ${self:custom.domain}-${sls:stage}-${param:region}-media
-    # sourceEmail: no-reply@${param:certificateName}
   dev:
-    # backendDomain: api.dev.${self:custom.domain}
-    # frontendDomain: https://dev.${self:custom.domain}
-    # certificateName: dev.${self:custom.domain}
     region: 'us-east-1'
-    # s3BucketName: ${self:custom.domain}-dev-${param:region}-media
-    # sourceEmail: no-reply@${param:certificateName}
-  # prod:
-  #   backendDomain: api.${self:custom.domain}
-  #   frontendDomain: https://${self:custom.domain}
-  #   certificateName: ${self:custom.domain}
-  #   region: 'eu-central-1'
-  #   s3BucketName: ${self:custom.domain}-${param:region}-media
-  #   sourceEmail: no-reply@${param:certificateName}
-  # staging:
-  #   frontendDomain: https://preview.${self:custom.domain}
-  #   backendDomain: api.preview.${self:custom.domain}
-  #   certificateName: preview.${self:custom.domain}
-  #   region: 'eu-central-1'
-  #   s3BucketName: ${self:custom.domain}-preview-${param:region}-media
-  #   sourceEmail: no-reply@${param:certificateName}
+
 custom:
   # domain: myapp.pk
   name: ${self:app}-${self:service}-${sls:stage}
-  # customDomain:
-  #   domainName: ${param:backendDomain}
-  #   stage: ${sls:stage}
-  #   certificateName: ${param:certificateName}
-  #   createRoute53Record: true
-  #   createRoute53IPv6Record: true
-  #   endpointType: 'regional'
-  #   apiType: http
-  #   autoDomain: true
 
   dynamodb:
     MainTable: ${self:service}-${self:provider.stage}
