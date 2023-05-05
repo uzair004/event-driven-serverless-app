@@ -59,6 +59,10 @@ function buildMakeOrder({ makeTs, makeId }) {
         statusReason = 'inactive';
         status = '0';
       },
+
+      updateOrderStatus: function () {
+        orderStatus = 'PROCESSED';
+      },
     });
 
     function validateInputData() {}
