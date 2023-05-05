@@ -44,6 +44,14 @@ function makeCreateOrderUC({ /*userDb*/ orderDb, makeOrder, pushToQueue }) {
       orderDb.createOrder(order.getItem()),
       pushToQueue({ products, userId, orderId: order.getId() }),
     ]);
+
+    return {
+      statusCode: 200,
+      body: {
+        message: `order placed! awaiting processing`,
+        orderStatus: order.getOrderStatus(),
+      },
+    };
   };
 }
 
