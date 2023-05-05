@@ -2,10 +2,16 @@
 
 const { getApiInfo, isValidEmail, missingItem } = require('../util/util');
 
-const { helloWorldUC, createOrderUC, processOrderUC } = require('../use-cases');
+const {
+  helloWorldUC,
+  createOrderUC,
+  processOrderUC,
+  getCustomerOrdersUC,
+} = require('../use-cases');
 const { makeHelloWorldC } = require('./helloWorldC');
 const { makeCreateOrderC } = require('./createOrderC');
 const { makeProcessOrderC } = require('./processOrderC');
+const { makeGetCustomerOrdersC } = require('./getCustomerOrders');
 
 const helloWorldC = makeHelloWorldC({
   helloWorldUC,
@@ -22,10 +28,17 @@ const createOrderC = makeCreateOrderC({
 
 const processOrderC = makeProcessOrderC({ processOrderUC });
 
+const getCustomerOrdersC = makeGetCustomerOrdersC({
+  getApiInfo,
+  missingItem,
+  getCustomerOrdersUC,
+});
+
 const requestController = Object.freeze({
   helloWorldC,
   createOrderC,
   processOrderC,
+  getCustomerOrdersC,
 });
 
 module.exports = {
@@ -33,4 +46,5 @@ module.exports = {
   createOrderC,
   processOrderC,
   requestController,
+  getCustomerOrdersC,
 };

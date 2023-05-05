@@ -82,6 +82,17 @@ functions:
   #         - 'ses:SendRawEmail'
   #       Resource: '*'
 
+  getCustomerOrders:
+    handler: src/controllers/index.getCustomerOrders
+    # middleware:
+    # pre:
+    # - src/middleware/index.jwtAuth
+    # uncomment once user signup/sigin apis implemented
+    events:
+      - httpApi:
+          method: get
+          path: /v1/users/{userId}/orders
+
   createOrder:
     handler: src/controllers/index.createOrderC
     # middleware:

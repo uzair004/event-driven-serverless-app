@@ -11,6 +11,7 @@ function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
     getCustomerOrders,
     getOrder,
     updateItem,
+    getCustomerOrder,
   });
 
   async function createOrder({ id, userId, ...itemInput }) {
@@ -54,6 +55,19 @@ function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
     };
 
     const result = await db.getItem({ itemInfo });
+
+    return result;
+  }
+
+  async function getCustomerOrder({ userId }) {
+    const db = makeDb({ makeDbConnect, getTableName });
+
+    const itemInfo = {
+      PK: OrderDM.makePK(),
+      SK: `${userId}`,
+    };
+
+    const result = await db.query({ itemInfo, operator: 'begins_with' });
 
     return result;
   }
