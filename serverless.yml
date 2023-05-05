@@ -113,26 +113,6 @@ functions:
           - sqs:DeleteMessage
         Resource: !GetAtt ProcessedOrdersQueue.Arn
 
-  # processOrder:
-  #   handler: src/controllers/index.processOrderC
-  #   events:
-  #     - httpApi:
-  #         path: users/create
-  #   - sqs:
-  #       arn: arn:aws:sqs:${self:provider.region}:${AWS_ACCOUNT_ID}:CreatedOrdersQueue
-  #       batchSize: 1
-  #       maximumRetryAttempts: 3
-  #       visibilityTimeout: 30
-  #       pollingTimeout: 20
-  #       enabled: true
-  # iamRoleStatementsInherit: true
-  # iamRoleStatements:
-  #   - Effect: Allow
-  #     Action:
-  #       - sqs:ReceiveMessage
-  #       - sqs:DeleteMessage
-  #     Resource: '*'
-
 plugins:
   - serverless-dynamodb-local
   - serverless-offline

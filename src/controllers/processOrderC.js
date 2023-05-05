@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const { createSuccessResponseHeaders } = require('../util/util');
@@ -6,13 +7,14 @@ function makeProcessOrderC({ processOrderUC }) {
   return async function processOrderC(event) {
     try {
       const {
-        Records: [body],
+        Records: [{ body }],
       } = event;
 
-      const message = JSON.parse(body);
-      const { orderId, userId, products } = message;
+      const { orderId, userId, products } = JSON.parse(body);
 
-      processOrderUC({ orderId, userId, products });
+      //   console.log({ orderId, userId, products });
+
+      await processOrderUC({ orderId, userId, products });
     } catch (err) {
       console.error(err);
       return createResponse({

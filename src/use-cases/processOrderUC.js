@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 function makeProcessOrderUC({ pushToQueue, makeOrder, orderDb }) {
@@ -6,13 +7,17 @@ function makeProcessOrderUC({ pushToQueue, makeOrder, orderDb }) {
 
     // get order by Id
     const orderInfo = await orderDb.getOrder({ userId, orderId });
-    const order = makeOrder(orderInfo);
+    const order = makeOrder({ ...orderInfo, id: orderId });
 
     // change its status to 'PROCESSED'
     order.updateOrderStatus();
 
     // update it to db
-    await orderDb.updateItem(order.getItem());
+    await orderDb.updateItem({
+      ...order.getItem(),
+      orderId: order.getId(),
+      userId,
+    });
 
     // push to next processed orders queue
     await pushToQueue(

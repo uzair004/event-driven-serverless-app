@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const { makeTs, head } = require('../util/util');
@@ -57,13 +58,16 @@ function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
     return result;
   }
 
-  async function updateItem({ orderId, userId, ...userInfo }) {
+  async function updateItem({ orderId, userId, ...info }) {
     const db = makeDb({ makeDbConnect, getTableName });
+    console.log({ orderId, userId });
     const itemInfo = {
       PK: OrderDM.makePK(),
       SK: OrderDM.makeSK({ orderId, userId }),
-      ...userInfo,
+      ...info,
     };
+
+    console.log({ itemInfo });
     await db.updateItem({ itemInfo });
   }
 }

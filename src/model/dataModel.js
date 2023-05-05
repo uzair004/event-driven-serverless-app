@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const AllDM = {};
@@ -65,16 +66,19 @@ const OrderDM = {
   makeType: () => 'ORDER',
 
   makePK: () => `Orders`,
-  splitPK: () => undefined,
+  splitPK: (_PK) => _PK,
 
   makeSK: ({ userId, orderId }) => `${userId}#${orderId}`,
   splitSK: (_SK) => {
+    console.log('userId: ', _SK.split('#')[0]);
     return {
       userId: _SK.split('#')[0],
       orderId: _SK.split('#')[1],
     };
   },
 };
+AllDM[OrderDM.makeType()] = OrderDM;
+Prefix[OrderDM.makeType()] = 'Orders';
 
 module.exports = {
   AllDM,
