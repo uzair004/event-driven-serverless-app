@@ -108,6 +108,8 @@ functions:
       - Effect: Allow
         Action:
           - sqs:SendMessage
+          - sqs:ReceiveMessage
+          - sqs:DeleteMessage
         Resource: !GetAtt ProcessedOrdersQueue.Arn
 
   # processOrder:
