@@ -7,7 +7,7 @@ const { OrderDM } = require('../model/dataModel');
 function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
   return Object.freeze({ createOrder, getCustomerOrders, getOrder });
 
-  async function createOrder({ orderId, userId, ...itemInput }) {
+  async function createOrder({ id, userId, ...itemInput }) {
     const db = makeDb({ makeDbConnect, getTableName });
 
     const requestInfo = {
@@ -17,8 +17,8 @@ function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
 
     const itemInfo = {
       PK: OrderDM.makePK(),
-      SK: OrderDM.makeSK({ orderId, userId }),
-      orderId,
+      SK: OrderDM.makeSK({ orderId: id, userId }),
+      orderId: id,
       userId,
       ...requestInfo,
     };
