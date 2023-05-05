@@ -5,7 +5,12 @@ const { makeTs, head } = require('../util/util');
 const { OrderDM } = require('../model/dataModel');
 
 function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
-  return Object.freeze({ createOrder, getCustomerOrders, getOrder });
+  return Object.freeze({
+    createOrder,
+    getCustomerOrders,
+    getOrder,
+    updateItem,
+  });
 
   async function createOrder({ id, userId, ...itemInput }) {
     const db = makeDb({ makeDbConnect, getTableName });
@@ -50,6 +55,16 @@ function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
     const result = await db.getItem({ itemInfo });
 
     return result;
+  }
+
+  async function updateItem({ orderId, userId, ...userInfo }) {
+    const db = makeDb({ makeDbConnect, getTableName });
+    const itemInfo = {
+      PK: OrderDM.makePK(),
+      SK: OrderDM.makeSK({ orderId, userId }),
+      ...userInfo,
+    };
+    await db.updateItem({ itemInfo });
   }
 }
 
