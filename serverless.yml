@@ -3,7 +3,7 @@
 service: 'orders-service'
 # app and org for use with dashboard.serverless.com
 app: 'markaz-task'
-org: 'markaz'
+org: 'uzair004'
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -83,39 +83,41 @@ functions:
   #       Resource: '*'
 
   createOrder:
-    handler: src/controlelrs/index.createOrderC
+    handler: src/controllers/index.createOrderC
     middleware:
       pre:
         # - src/middleware/index.jwtAuth
         # uncomment once user signup/sigin apis implemented
-      events:
-        - httpApi:
+    events:
+      - httpApi:
           method: post
           path: /v1/orders
-      iamRoleStatementsInherit: true
-      iamRoleStatements:
-        - Effect: Allow
-          Action:
-            - sqs:SendMessage
-          Resource: '*'
-
-  processOrder:
-    handler: src/controlelrs/index.processOrderC
-    events:
-      - sqs:
-          arn: arn:aws:sqs:${self:provider.region}:${AWS_ACCOUNT_ID}:CREATED_ORDERS_QUEUE
-          batchSize: 1
-          maximumRetryAttempts: 3
-          visibilityTimeout: 30
-          pollingTimeout: 20
-          enabled: true
     iamRoleStatementsInherit: true
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - sqs:ReceiveMessage
-          - sqs:DeleteMessage
+          - sqs:SendMessage
         Resource: '*'
+
+  # processOrder:
+  #   handler: src/controllers/index.processOrderC
+  #   events:
+  #     - httpApi:
+  #         path: users/create
+  #   - sqs:
+  #       arn: arn:aws:sqs:${self:provider.region}:${AWS_ACCOUNT_ID}:CREATED_ORDERS_QUEUE
+  #       batchSize: 1
+  #       maximumRetryAttempts: 3
+  #       visibilityTimeout: 30
+  #       pollingTimeout: 20
+  #       enabled: true
+  # iamRoleStatementsInherit: true
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #       - sqs:ReceiveMessage
+  #       - sqs:DeleteMessage
+  #     Resource: '*'
 
 plugins:
   - serverless-dynamodb-local
@@ -124,7 +126,7 @@ plugins:
   - '@serverless/safeguards-plugin'
   - serverless-export-env
   - serverless-middleware
-  - serverless-domain-manager
+  # - serverless-domain-manager
   - serverless-iam-roles-per-function
   - serverless-plugin-scripts
   - serverless-deployment-bucket
@@ -138,14 +140,14 @@ params:
     # frontendDomain: https://${sls:stage}.dev.${self:custom.domain}
     # certificateName: dev.${self:custom.domain}
     region: 'us-east-1'
-    s3BucketName: ${self:custom.domain}-${sls:stage}-${param:region}-media
+    # s3BucketName: ${self:custom.domain}-${sls:stage}-${param:region}-media
     # sourceEmail: no-reply@${param:certificateName}
   dev:
     # backendDomain: api.dev.${self:custom.domain}
     # frontendDomain: https://dev.${self:custom.domain}
     # certificateName: dev.${self:custom.domain}
     region: 'us-east-1'
-    s3BucketName: ${self:custom.domain}-dev-${param:region}-media
+    # s3BucketName: ${self:custom.domain}-dev-${param:region}-media
     # sourceEmail: no-reply@${param:certificateName}
   # prod:
   #   backendDomain: api.${self:custom.domain}
@@ -163,8 +165,7 @@ params:
   #   sourceEmail: no-reply@${param:certificateName}
 custom:
   # domain: myapp.pk
-  # name: ${self:app}-${self:service}-${sls:stage}
-
+  name: ${self:app}-${self:service}-${sls:stage}
   # customDomain:
   #   domainName: ${param:backendDomain}
   #   stage: ${sls:stage}
@@ -187,7 +188,7 @@ custom:
       migrate: true
 
   s3:
-    MediaBucket: ${param:s3BucketName}
+    MediaBucket: ${sls:stage}-${param:region}-media
 
   middleware:
     folderName: src/.middleware
