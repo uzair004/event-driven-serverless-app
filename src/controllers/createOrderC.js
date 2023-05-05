@@ -2,16 +2,10 @@
 
 const { createSuccessResponseHeaders } = require('../util/util');
 
-function makeCreateOrderC({
-  getApiInfo,
-  getRemoteIp,
-  missingItem,
-  createOrderUC,
-}) {
+function makeCreateOrderC({ getApiInfo, missingItem, createOrderUC }) {
   return async function createOrderC(event) {
     try {
       const apiInfo = getApiInfo(event);
-      const remoteIp = getRemoteIp(event);
 
       const { body } = event;
       if (!body) return createResponse(missingItem('Body'));
@@ -46,7 +40,6 @@ function makeCreateOrderC({
 
       const result = await createOrderUC({
         apiInfo,
-        remoteIp,
         products,
         userId,
       });

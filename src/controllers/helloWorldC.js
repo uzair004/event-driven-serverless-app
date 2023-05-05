@@ -4,14 +4,12 @@ const { createSuccessResponseHeaders } = require('../util/util');
 function makeHelloWorldC({
   helloWorldUC,
   getApiInfo,
-  getRemoteIp,
   // missingItem,
   // isValidEmail,
 }) {
   return async function helloWorldC(event) {
     try {
       const apiInfo = getApiInfo(event);
-      const remoteIp = getRemoteIp(event);
 
       // const { body } = event;
 
@@ -38,7 +36,7 @@ function makeHelloWorldC({
       //   });
       // }
 
-      const result = await helloWorldUC({ apiInfo, remoteIp });
+      const result = await helloWorldUC({ apiInfo });
 
       return createResponse({ response: result });
     } catch (err) {
