@@ -47,11 +47,11 @@ Resources:
       QueueName: 'CreatedOrdersQueue'
       DelaySeconds: 0
       MaximumMessageSize: 252144
-      ReceiveMessageWaitTimeSeconds: 20
+      ReceiveMessageWaitTimeSeconds: 10
   ProcessedOrdersQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
       QueueName: 'ProcessedOrdersQueue'
       DelaySeconds: 0
       MaximumMessageSize: 252144
-      ReceiveMessageWaitTimeSeconds: 20
+      ReceiveMessageWaitTimeSeconds: 10

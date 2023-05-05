@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-require('dotenv').config();
+// require('dotenv').config();
 
 const createSignedPostURL = ({ key }) => {
   return new Promise(function (resolve, reject) {
@@ -64,11 +64,11 @@ const getS3Object = async ({ key }) => {
 AWS.config.update({ region: process.env.AWS_REGION });
 const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 
-const pushToQueue = (message) => {
+const pushToQueue = (message, queueName) => {
   return new Promise((resolve, reject) => {
     sqs.getQueueUrl(
       {
-        QueueName: 'CreatedOrdersQueue',
+        QueueName: queueName,
       },
       function (err, data) {
         if (err) {
