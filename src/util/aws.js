@@ -66,14 +66,25 @@ const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 
 const pushToQueue = (message) => {
   return new Promise((resolve, reject) => {
-    sqs.sendMessage(
+    sqs.getQueueUrl(
       {
-        MessageBody: JSON.stringify(message),
-        QueueUrl: process.env.CREATED_ORDERS_QUEUE,
+        QueueName: 'CreatedOrdersQueue',
       },
       function (err, data) {
-        if (err) reject(err);
-        else if (data) resolve(data);
+        if (err) {
+          reject(err);
+        } else {
+          sqs.sendMessage(
+            {
+              MessageBody: JSON.stringify(message),
+              QueueUrl: data.QueueUrl,
+            },
+            function (err, data) {
+              if (err) reject(err);
+              else if (data) resolve(data);
+            }
+          );
+        }
       }
     );
   });
