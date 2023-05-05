@@ -23,7 +23,7 @@ function makeDb({ makeDbConnect, getTableName }) {
     const item = objectToItem({ itemInfo });
 
     // Create the input object for DynamoDB.
-    const input = createPutItemInput({ item });
+    const input = createPutItemInput(item);
 
     // Put the item in the database.
     const result = await db.putItem(input).promise();
@@ -294,10 +294,11 @@ function makeDb({ makeDbConnect, getTableName }) {
   }
 
   function createPutItemInput(item, allowOverwrite = false) {
-    if (!item.PK.S || !item.SK.S) {
+    if (!item.PK?.S || !item.SK?.S) {
       console.error(item);
       throw new Error('Missing or invalid key');
     }
+
     const input = {
       TableName: getTableName(),
       Item: item,
