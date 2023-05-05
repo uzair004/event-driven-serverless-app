@@ -42,7 +42,10 @@ function makeCreateOrderUC({ /*userDb*/ orderDb, makeOrder, pushToQueue }) {
 
     await Promise.all([
       orderDb.createOrder(order.getItem()),
-      pushToQueue({ products, userId, orderId: order.getId() }),
+      pushToQueue(
+        { products, userId, orderId: order.getId() },
+        'CreatedOrdersQueue'
+      ),
     ]);
 
     return {
