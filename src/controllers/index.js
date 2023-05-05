@@ -2,7 +2,7 @@
 
 const { getApiInfo, isValidEmail, missingItem } = require('../util/util');
 
-const { helloWorldUC, createOrderUC } = require('../use-cases');
+const { helloWorldUC, createOrderUC, processOrderUC } = require('../use-cases');
 const { makeHelloWorldC } = require('./helloWorldC');
 const { makeCreateOrderC } = require('./createOrderC');
 const { makeProcessOrderC } = require('./processOrderC');
@@ -20,7 +20,7 @@ const createOrderC = makeCreateOrderC({
   createOrderUC,
 });
 
-const processOrderC = makeProcessOrderC({ getApiInfo, missingItem });
+const processOrderC = makeProcessOrderC({ processOrderUC });
 
 const requestController = Object.freeze({
   helloWorldC,
