@@ -1,18 +1,19 @@
-/* eslint-disable no-console */
 'use strict';
 
 const { createSuccessResponseHeaders } = require('../util/util');
 
-function makeProcessOrderC({ processOrderUC }) {
-  return async function processOrderC(event) {
+function makeUpdateStockC({ updateStockUC }) {
+  return async function updateStockC(event) {
     try {
       const {
         Records: [{ body }],
       } = event;
 
-      const { orderId, userId, products } = JSON.parse(body);
+      const { products, orderId, userId } = JSON.parse(body);
 
-      await processOrderUC({ orderId, userId, products });
+      const result = await updateStockUC({ products, orderId, userId });
+
+      return createResponse({ response: result });
     } catch (err) {
       console.error(err);
       return createResponse({
@@ -33,4 +34,4 @@ const createResponse = ({ response }) => {
   };
 };
 
-module.exports = { makeProcessOrderC };
+module.exports = { makeUpdateStockC };

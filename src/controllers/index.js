@@ -7,11 +7,13 @@ const {
   createOrderUC,
   processOrderUC,
   getCustomerOrdersUC,
+  updateStockUC,
 } = require('../use-cases');
 const { makeHelloWorldC } = require('./helloWorldC');
 const { makeCreateOrderC } = require('./createOrderC');
 const { makeProcessOrderC } = require('./processOrderC');
-const { makeGetCustomerOrdersC } = require('./getCustomerOrders');
+const { makeGetCustomerOrdersC } = require('./getCustomerOrdersC');
+const { makeUpdateStockC } = require('./updateStockC');
 
 const helloWorldC = makeHelloWorldC({
   helloWorldUC,
@@ -34,11 +36,14 @@ const getCustomerOrdersC = makeGetCustomerOrdersC({
   getCustomerOrdersUC,
 });
 
+const updateStockC = makeUpdateStockC({ updateStockUC });
+
 const requestController = Object.freeze({
   helloWorldC,
   createOrderC,
   processOrderC,
   getCustomerOrdersC,
+  updateStockC,
 });
 
 module.exports = {
@@ -47,4 +52,5 @@ module.exports = {
   processOrderC,
   requestController,
   getCustomerOrdersC,
+  updateStockC,
 };

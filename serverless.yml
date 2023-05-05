@@ -60,28 +60,6 @@ package:
     - '!./.vscode/**'
     - '!./**/*.spec.js'
 functions:
-  # helloWorld:
-  #   handler: src/controllers/index.helloWorldC
-  #   middleware:
-  #     pre:
-  #       - src/middleware/index.jwtAuth
-  #   events:
-  #     - httpApi:
-  #         method: any
-  #         path: /v1/hello-world
-  #   iamRoleStatementsInherit: true
-  #   iamRoleStatements:
-  #     - Effect: Allow
-  #       Action:
-  #         - s3:GetObject
-  #       Resource: 'arn:aws:s3:::${self:custom.s3.MediaBucket}/*'
-  #       # '*' # TODO: later we should replace it with working ARN instead of a wildcard
-  #     - Effect: Allow # sendEmail permission
-  #       Action:
-  #         - 'ses:SendEmail'
-  #         - 'ses:SendRawEmail'
-  #       Resource: '*'
-
   getCustomerOrders:
     handler: src/controllers/index.getCustomerOrders
     # middleware:
@@ -123,6 +101,12 @@ functions:
           - sqs:ReceiveMessage
           - sqs:DeleteMessage
         Resource: !GetAtt ProcessedOrdersQueue.Arn
+
+  updateStock:
+    handler: src/controllers/index.updateStockC
+    events:
+      - sqs:
+          arn: !GetAtt ProcessedOrdersQueue.Arn
 
 plugins:
   - serverless-dynamodb-local
