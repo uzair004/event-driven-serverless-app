@@ -84,10 +84,10 @@ functions:
 
   createOrder:
     handler: src/controllers/index.createOrderC
-    middleware:
-      pre:
-        # - src/middleware/index.jwtAuth
-        # uncomment once user signup/sigin apis implemented
+    # middleware:
+    # pre:
+    # - src/middleware/index.jwtAuth
+    # uncomment once user signup/sigin apis implemented
     events:
       - httpApi:
           method: post
@@ -99,13 +99,24 @@ functions:
           - sqs:SendMessage
         Resource: '*'
 
+  processOrder:
+    handler: src/controllers/index.processOrderC
+    events:
+      - sqs:
+          arn: !GetAtt CreatedOrdersQueue.Arn
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - sqs:SendMessage
+        Resource: !GetAtt ProcessedOrdersQueue.Arn
+
   # processOrder:
   #   handler: src/controllers/index.processOrderC
   #   events:
   #     - httpApi:
   #         path: users/create
   #   - sqs:
-  #       arn: arn:aws:sqs:${self:provider.region}:${AWS_ACCOUNT_ID}:CREATED_ORDERS_QUEUE
+  #       arn: arn:aws:sqs:${self:provider.region}:${AWS_ACCOUNT_ID}:CreatedOrdersQueue
   #       batchSize: 1
   #       maximumRetryAttempts: 3
   #       visibilityTimeout: 30
@@ -168,3 +179,6 @@ custom:
   export-env:
     filename: .env
     overwrite: true
+
+resources:
+  - ${file(./resource.yml)}
