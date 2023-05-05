@@ -2,14 +2,17 @@
 
 const { createSuccessResponseHeaders } = require('../util/util');
 
-function makeProcessOrderC(/*{ getApiInfo, missingItem }*/) {
+function makeProcessOrderC({ processOrderUC }) {
   return async function processOrderC(event) {
     try {
-      //   const {
-      //     Records: [message],
-      //   } = event;
-      // eslint-disable-next-line no-console
-      console.log({ event });
+      const {
+        Records: [body],
+      } = event;
+
+      const message = JSON.parse(body);
+      const { orderId, userId, products } = message;
+
+      processOrderUC({ orderId, userId, products });
     } catch (err) {
       console.error(err);
       return createResponse({
