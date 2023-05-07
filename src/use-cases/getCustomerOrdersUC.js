@@ -14,7 +14,7 @@ function makeGetCustomerOrdersUC({ orderDb, makeOrder }) {
 
     return {
       statusCode: 200,
-      body: allOrders,
+      body: { orders: allOrders },
     };
   };
 }
