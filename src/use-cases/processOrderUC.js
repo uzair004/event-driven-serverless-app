@@ -12,6 +12,11 @@ function makeProcessOrderUC({ pushToQueue, makeOrder, orderDb }) {
     // change its status to 'PROCESSED'
     order.updateOrderStatus();
 
+    if (!order.getItem()) {
+      throw new Error('Order failed to process');
+      //   notify user about order through SNS
+    }
+
     // update it to db
     await orderDb.updateItem({
       ...order.getItem(),
