@@ -98,8 +98,6 @@ functions:
       - Effect: Allow
         Action:
           - sqs:SendMessage
-          - sqs:ReceiveMessage
-          - sqs:DeleteMessage
         Resource: '*'
 
   updateStock:
