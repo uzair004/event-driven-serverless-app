@@ -1,11 +1,12 @@
 'use strict';
 
-const { getApiInfo, missingItem } = require('../util/util');
+const { missingItem } = require('../util/util');
 
 const {
   createOrderUC,
   processOrderUC,
   updateStockUC,
+  getCustomerOrdersUC,
 } = require('../use-cases');
 const { makeCreateOrderC } = require('./createOrderC');
 const { makeProcessOrderC } = require('./processOrderC');
@@ -13,7 +14,6 @@ const { makeGetCustomerOrdersC } = require('./getCustomerOrdersC');
 const { makeUpdateStockC } = require('./updateStockC');
 
 const createOrderC = makeCreateOrderC({
-  getApiInfo,
   missingItem,
   createOrderUC,
 });
@@ -21,8 +21,7 @@ const createOrderC = makeCreateOrderC({
 const processOrderC = makeProcessOrderC({ processOrderUC });
 
 const getCustomerOrdersC = makeGetCustomerOrdersC({
-  getApiInfo,
-  missingItem,
+  getCustomerOrdersUC,
 });
 
 const updateStockC = makeUpdateStockC({ updateStockUC });

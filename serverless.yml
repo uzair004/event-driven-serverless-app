@@ -61,7 +61,7 @@ package:
     - '!./**/*.spec.js'
 functions:
   getCustomerOrders:
-    handler: src/controllers/index.getCustomerOrders
+    handler: src/controllers/index.getCustomerOrdersC
     # middleware:
     # pre:
     # - src/middleware/index.jwtAuth

@@ -2,15 +2,9 @@
 
 const { createSuccessResponseHeaders } = require('../util/util');
 
-function makeGetCustomerOrdersC({
-  getApiInfo,
-  missingItem,
-  getCustomerOrdersUC,
-}) {
+function makeGetCustomerOrdersC({ missingItem, getCustomerOrdersUC }) {
   return async function getCustomerOrdersC(event) {
     try {
-      const apiInfo = getApiInfo(event);
-
       const { userId } = event.pathParameters;
 
       if (!userId) return createResponse(missingItem('UserID'));
@@ -26,7 +20,6 @@ function makeGetCustomerOrdersC({
       }
 
       const result = await getCustomerOrdersUC({
-        apiInfo,
         userId,
       });
 

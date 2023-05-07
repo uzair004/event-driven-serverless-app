@@ -14,7 +14,7 @@ function buildMakeOrder({ makeTs, makeId }) {
     updatedAt = makeTs(),
     status = '1',
     statusReason = 'active',
-    orderStatus = 'pending',
+    orderStatus = 'PENDING',
   } = {}) {
     validateInputData();
 
