@@ -100,7 +100,7 @@ functions:
           - sqs:SendMessage
           - sqs:ReceiveMessage
           - sqs:DeleteMessage
-        Resource: !GetAtt ProcessedOrdersQueue.Arn
+        Resource: '*'
 
   updateStock:
     handler: src/controllers/index.updateStockC
