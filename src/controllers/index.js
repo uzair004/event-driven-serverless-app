@@ -1,6 +1,6 @@
 'use strict';
 
-const { missingItem } = require('../util/util');
+const { missingItem, getApiInfo } = require('../util/util');
 
 const {
   createOrderUC,
@@ -16,6 +16,7 @@ const { makeUpdateStockC } = require('./updateStockC');
 const createOrderC = makeCreateOrderC({
   missingItem,
   createOrderUC,
+  getApiInfo,
 });
 
 const processOrderC = makeProcessOrderC({ processOrderUC });
