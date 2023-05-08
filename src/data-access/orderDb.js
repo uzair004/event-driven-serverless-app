@@ -41,9 +41,13 @@ function makeOrderDb({ makeDb, makeDbConnect, getTableName }) {
       SK: `${userId}`,
     };
 
-    const result = await db.query({ itemInfo, operator: 'begins_with' });
+    const result = await db.query({
+      itemInfo,
+      operator: 'begins_with',
+      limit: 10,
+    });
 
-    return head(result);
+    return result;
   }
 
   async function getOrder({ userId, orderId }) {
