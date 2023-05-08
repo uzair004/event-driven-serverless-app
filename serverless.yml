@@ -86,6 +86,7 @@ functions:
       - Effect: Allow
         Action:
           - sqs:SendMessage
+          - sqs:GetQueueUrl
         Resource: '*'
 
   processOrder:
@@ -98,6 +99,7 @@ functions:
       - Effect: Allow
         Action:
           - sqs:SendMessage
+          - sqs:GetQueueUrl
         Resource: '*'
 
   updateStock:
