@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 'use strict';
 
 const { createSuccessResponseHeaders } = require('../util/util');
@@ -10,6 +11,8 @@ function makeUpdateStockC({ updateStockUC }) {
       } = event;
 
       const { products, orderId, userId } = JSON.parse(body);
+
+      console.log({ products, orderId, userId });
 
       const result = await updateStockUC({ products, orderId, userId });
 
