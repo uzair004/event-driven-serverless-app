@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 'use strict';
 
-const { makeTs, head } = require('../util/util');
+const { makeTs } = require('../util/util');
 
 const { OrderDM } = require('../model/dataModel');
 
