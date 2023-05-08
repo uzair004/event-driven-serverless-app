@@ -6,7 +6,7 @@ function makeGetCustomerOrdersUC({ orderDb, makeOrder }) {
 
     const allOrders = [];
 
-    const ordersInfo = await orderDb.getCustomerOrder({ userId });
+    const ordersInfo = await orderDb.getCustomerOrders({ userId });
     ordersInfo.forEach((orderInfo) => {
       const order = makeOrder(orderInfo);
       allOrders.push(order.getItem());
