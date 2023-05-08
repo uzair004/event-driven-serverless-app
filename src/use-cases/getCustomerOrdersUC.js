@@ -9,7 +9,14 @@ function makeGetCustomerOrdersUC({ orderDb, makeOrder }) {
     const ordersInfo = await orderDb.getCustomerOrders({ userId });
     ordersInfo.forEach((orderInfo) => {
       const order = makeOrder(orderInfo);
-      allOrders.push(order.getItem());
+      allOrders.push({
+        createdAt: order.getCreatedAt(),
+        updatedAt: order.getUpdatedAt(),
+        id: order.getId(),
+        userId: order.getUserId(),
+        products: order.getProducts(),
+        orderStatus: order.getOrderStatus(),
+      });
     });
 
     return {
