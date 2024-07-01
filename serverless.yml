@@ -2,7 +2,7 @@
 
 service: 'orders-service'
 # app and org for use with dashboard.serverless.com
-app: 'markaz-task'
+app: 'event-driven-serverless-app'
 org: 'uzair004'
 
 # You can pin your service to only deploy with a specific Serverless version
